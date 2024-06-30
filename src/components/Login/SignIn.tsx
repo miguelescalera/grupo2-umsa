@@ -5,8 +5,7 @@ import {
   Container
 } from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import Copyright from "../functions/Copyright";
-import "./login.css";
+import Copyright from "./Copyright";
 
 export default function SignIn() {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -19,7 +18,13 @@ export default function SignIn() {
   };
 
   return (
-    <div className='login'>
+    <Box sx={{
+          borderRadius: '20px', 
+          backgroundColor: 'rgba(150, 150, 150, 0.8)',
+          padding: "5px",
+          maxWidth: "500px",
+          color: 'black',
+          }}>
         <Container component="main" maxWidth="xs">
           <Box
             sx={{
@@ -84,6 +89,6 @@ export default function SignIn() {
           </Box>
           <Copyright sx={{ mt: 5}} />
         </Container>
-    </div>
+    </Box>
   );
 }

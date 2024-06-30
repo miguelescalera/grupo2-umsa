@@ -6,8 +6,7 @@ import {
 } from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import Copyright from "../functions/Copyright";
-import "./login.css";
+import Copyright from "./Copyright";
 
 export default function SignUp() {
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -21,7 +20,13 @@ export default function SignUp() {
     };
 
     return (
-        <div className='login'>
+        <Box sx={{
+            borderRadius: '20px', 
+            backgroundColor: 'rgba(150, 150, 150, 0.8)',
+            padding: "5px",
+            maxWidth: "500px",
+            color: 'black',
+            }}>
             <ThemeProvider theme={createTheme()}>
                 <Container component="main" maxWidth="xs">
                     <Box
@@ -103,6 +108,6 @@ export default function SignUp() {
                     <Copyright sx={{ mt: 5 }} />
                 </Container>
             </ThemeProvider>
-        </div>
+        </Box>
     );
 }
