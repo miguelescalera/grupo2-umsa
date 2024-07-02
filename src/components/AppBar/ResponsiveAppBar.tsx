@@ -5,7 +5,6 @@ import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import Menu from '@mui/material/Menu';
-import MenuIcon from '@mui/icons-material/Menu';
 import Container from '@mui/material/Container';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
@@ -13,23 +12,16 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import AssignmentIcon from '@mui/icons-material/Assignment';
+import { pages } from './ResponsiveAppBar.constans';
+import { Link } from 'react-router-dom';
 
-const pages = ['Cartilla de medicos', 'Pacientes', 'Profesionales', 'Descargar Receta'];
 const settings = ['Perfil', 'Cerrar Sesion'];
 
 function ResponsiveAppBar() {
-  const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
 
-  const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorElNav(event.currentTarget);
-  };
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElUser(event.currentTarget);
-  };
-
-  const handleCloseNavMenu = () => {
-    setAnchorElNav(null);
   };
 
   const handleCloseUserMenu = () => {
@@ -57,44 +49,6 @@ function ResponsiveAppBar() {
           >
             Obra Social
           </Typography>
-            {/*Menu Desplegable*/}
-          <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
-            <IconButton
-              size="large"
-              aria-label="account of current user"
-              aria-controls="menu-appbar"
-              aria-haspopup="true"
-              onClick={handleOpenNavMenu}
-              color="inherit"
-            >
-              <MenuIcon />
-            </IconButton>
-            <Menu
-              id="menu-appbar"
-              anchorEl={anchorElNav}
-              anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'left',
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'left',
-              }}
-              open={Boolean(anchorElNav)}
-              onClose={handleCloseNavMenu}
-              sx={{
-                display: { xs: 'block', md: 'none' },
-              }}
-            >
-              {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{page}</Typography>
-                </MenuItem>
-              ))}
-            </Menu>
-          </Box>
-          <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
           {/*Titulo pantalla pequeña*/}
           <Typography
             variant="h6"
@@ -116,20 +70,21 @@ function ResponsiveAppBar() {
           </Typography>
           {/*Menu*/}
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-            {pages.map((page) => (
-              <Button
-                key={page}
-                onClick={handleCloseNavMenu}
-                variant='text'
-                sx={{ my: 2, color: 'white', display: 'block' }}
-              >
-                {page}
-              </Button>
+            {pages.map(({name, route}) => (
+              <Link style={{textDecoration:'none'}} to={route}>
+                <Button
+                  key={`${name}`}
+                  variant='text'
+                  sx={{ my: 2, color: 'white', display: 'block' }}
+                >
+                  {name}
+                </Button>
+              </Link>
             ))}
           </Box>
           {/*Opciones*/}
           <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="Opciones">
+            <Tooltip title="Perfil">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0}}>
                 <Avatar sx={{bgcolor: "transparent"}}>
                   <AssignmentIcon fontSize="large"/>
