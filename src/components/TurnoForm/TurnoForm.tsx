@@ -9,18 +9,20 @@ interface TurnoFormProps {
   onSubmit: (data: any) => void;
 }
 interface Especialista {
+  
+  id : string;
   especialidad: string;
+  nombreProfesional: string;
 }
 const TurnoForm: React.FC<TurnoFormProps> = ({ onSubmit }) => {
   //const [especialidades, setEspecialidades] = useState<string[]>([]);
   const [motivoConsulta, setMotivoConsulta] = useState('');
-  const [doctoresDisponibles, setDoctoresDisponibles] = useState([]);
+  const [doctoresDisponibles, setDoctoresDisponibles] = useState<Especialista[]>([]);
   const [selectedDoctor, setSelectedDoctor] = useState('');
 
   const [especialidades, setEspecialidades] = useState([]);
   const [selectedEspecialidad, setSelectedEspecialidad] = useState('');
-  const [fechaSeleccionada, setFechaSeleccionada] = useState<Dayjs | null>(null);
-  const [horaSeleccionada, setHoraSeleccionada] = useState<Dayjs | null>(null);
+
   //get<Especialista[]>
   useEffect(() => {
     axios.get('http://localhost:8080/api/especialistas')
@@ -28,26 +30,42 @@ const TurnoForm: React.FC<TurnoFormProps> = ({ onSubmit }) => {
         const especialidades: any = new Set(response.data.map((especialista: Especialista) => especialista.especialidad));
         setEspecialidades(Array.from(especialidades));
 
-        const doctoresConEspecialidad = response.data.filter(doctor => doctor.especialidad === selectedEspecialidad);
+        if (selectedEspecialidad) {
+        const doctoresConEspecialidad = response.data.filter((especialista: Especialista) => especialista.especialidad === selectedEspecialidad);
+        console.log(doctoresConEspecialidad)
         setDoctoresDisponibles(doctoresConEspecialidad);
+        }
       })
       .catch(error => console.error('Error fetching especialidades', error));
   }, []);
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    onSubmit({
-      especialidad: selectedEspecialidad,
-      fecha: fechaSeleccionada,
-      hora: horaSeleccionada,
-      motivo: motivoConsulta,
-      doctor: selectedDoctor // Añade el doctor seleccionado
-    });
-  };
-  
+  useEffect(() => {
+    if (selectedEspecialidad) {
+      axios.get('http://localhost:8080/api/especialistas')
+        .then(response => {
+          const doctoresConEspecialidad = response.data.filter((especialista: Especialista) => especialista.especialidad === selectedEspecialidad);
+          console.log(doctoresConEspecialidad);
+          setDoctoresDisponibles(doctoresConEspecialidad);
+        })
+        .catch(error => console.error('Error fetching doctores by specialty', error));
+    }
+  }, [selectedEspecialidad]);
+
+
+
+const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  event.preventDefault();
+  onSubmit({
+    especialidad: selectedEspecialidad,
+    motivo: motivoConsulta,
+    doctor: selectedDoctor // Añade el doctor seleccionado
+  });
+};
+
 
   return (
     <form onSubmit={handleSubmit}>
+      
       <FormControl fullWidth>
         <InputLabel id="select-especialidad-label">Especialidad</InputLabel>
         <Select
@@ -61,6 +79,7 @@ const TurnoForm: React.FC<TurnoFormProps> = ({ onSubmit }) => {
           ))}
         </Select>
       </FormControl>
+
       <FormControl fullWidth>
         <InputLabel id="select-doctor-label">Doctor</InputLabel>
         <Select
@@ -69,14 +88,11 @@ const TurnoForm: React.FC<TurnoFormProps> = ({ onSubmit }) => {
           onChange={(e) => setSelectedDoctor(e.target.value)} // Añade un estado setter para el doctor seleccionado
           label="Doctor"
         >
-          {doctoresDisponibles.map((doctor) => (
-            <MenuItem key={doctor.id} value={doctor.nombre}>{doctor.nombre}</MenuItem>
+          {doctoresDisponibles.map((especialista) => (
+            <MenuItem key={especialista.id} value={especialista.nombreProfesional}>{especialista.nombreProfesional}</MenuItem>
           ))}
         </Select>
       </FormControl>
-
-      <FechaSelector onFechaChange={setFechaSeleccionada} />
-      {fechaSeleccionada && <HoraSelector fechaSeleccionada={fechaSeleccionada} onHoraChange={setHoraSeleccionada} />}
 
       <TextField
         label="Motivo de Consulta"
