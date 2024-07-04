@@ -1,21 +1,26 @@
 import React, { useEffect, useState } from 'react';
 import { TextField, Button, Select, MenuItem, InputLabel, FormControl } from '@mui/material';
 import axios from 'axios';
+import { especialistasService } from '../../services/services';
+import { EspecialistaType } from '../Interfaces/interfaces';
+
 
 interface TurnoFormProps {
   onSubmit: (data: any) => void;
 }
+
+/*
 interface Especialista {
   id : string;
   especialidad: string;
   nombreProfesional: string;
 }
-
+*/
 
 const TurnoForm: React.FC<TurnoFormProps> = ({ onSubmit }) => {
   //const [especialidades, setEspecialidades] = useState<string[]>([]);
   const [motivoConsulta, setMotivoConsulta] = useState('');
-  const [doctoresDisponibles, setDoctoresDisponibles] = useState<Especialista[]>([]);
+  const [doctoresDisponibles, setDoctoresDisponibles] = useState<EspecialistaType[]>([]);
   const [selectedDoctor, setSelectedDoctor] = useState('');
 
   const [especialidades, setEspecialidades] = useState([]);
@@ -23,13 +28,13 @@ const TurnoForm: React.FC<TurnoFormProps> = ({ onSubmit }) => {
 
   //get<Especialista[]>
   useEffect(() => {
-    axios.get('http://localhost:8080/api/especialistas')
+    especialistasService()
       .then(response => {
-        const especialidades: any = new Set(response.data.map((especialista: Especialista) => especialista.especialidad));
+        const especialidades: any = new Set(response.map((especialista: EspecialistaType) => especialista.especialidad));
         setEspecialidades(Array.from(especialidades));
 
         if (selectedEspecialidad) {
-        const doctoresConEspecialidad = response.data.filter((especialista: Especialista) => especialista.especialidad === selectedEspecialidad);
+        const doctoresConEspecialidad = response.filter((especialista: EspecialistaType) => especialista.especialidad === selectedEspecialidad);
         console.log(doctoresConEspecialidad)
         setDoctoresDisponibles(doctoresConEspecialidad);
         }
@@ -39,9 +44,9 @@ const TurnoForm: React.FC<TurnoFormProps> = ({ onSubmit }) => {
 
   useEffect(() => {
     if (selectedEspecialidad) {
-      axios.get('http://localhost:8080/api/especialistas')
+      especialistasService()
         .then(response => {
-          const doctoresConEspecialidad = response.data.filter((especialista: Especialista) => especialista.especialidad === selectedEspecialidad);
+          const doctoresConEspecialidad = response.filter((especialista: EspecialistaType) => especialista.especialidad === selectedEspecialidad);
           console.log(doctoresConEspecialidad);
           setDoctoresDisponibles(doctoresConEspecialidad);
         })

@@ -9,3 +9,9 @@ export type RegisterType = {
   email: FormDataEntryValue | null
   password: FormDataEntryValue | null
 }
+
+export type  EspecialistaType ={
+  id : string;
+  especialidad: string;
+  nombreProfesional: string;
+}
