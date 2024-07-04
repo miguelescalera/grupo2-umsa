@@ -2,7 +2,6 @@ import axios from 'axios'
 import {LoginType, RegisterType } from '../components/Interfaces/interfaces'
 import { LOGIN, REGISTER, URL_SERVICE } from '../constants/constants'
 
-    // ejemplo para consumo de api
   const registerService = (data: RegisterType) => {
     return new Promise((resolve, reject) => {
     axios.post(`${URL_SERVICE}${REGISTER}`, {data})
