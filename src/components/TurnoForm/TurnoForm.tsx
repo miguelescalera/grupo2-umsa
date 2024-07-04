@@ -1,19 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { TextField, Button, Select, MenuItem, InputLabel, FormControl } from '@mui/material';
 import axios from 'axios';
-import FechaSelector from './FechaSelector';
-import HoraSelector from './HoraSelector';
-import { Dayjs } from 'dayjs';
 
 interface TurnoFormProps {
   onSubmit: (data: any) => void;
 }
 interface Especialista {
-  
   id : string;
   especialidad: string;
   nombreProfesional: string;
 }
+
+
 const TurnoForm: React.FC<TurnoFormProps> = ({ onSubmit }) => {
   //const [especialidades, setEspecialidades] = useState<string[]>([]);
   const [motivoConsulta, setMotivoConsulta] = useState('');
@@ -87,9 +85,16 @@ const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
           value={selectedDoctor} // Añade un estado para el doctor seleccionado
           onChange={(e) => setSelectedDoctor(e.target.value)} // Añade un estado setter para el doctor seleccionado
           label="Doctor"
+          defaultValue={''}
         >
           {doctoresDisponibles.map((especialista) => (
-            <MenuItem key={especialista.id} value={especialista.nombreProfesional}>{especialista.nombreProfesional}</MenuItem>
+            <MenuItem //este codigo es para evitar el out of range provider
+              key={especialista.id} value={
+                (especialista.nombreProfesional === undefined ||
+                especialista.nombreProfesional === null ||
+                Option.length === 0) ? '' : especialista.nombreProfesional}>
+                  {especialista.nombreProfesional}
+              </MenuItem>
           ))}
         </Select>
       </FormControl>
