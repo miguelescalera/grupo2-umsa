@@ -14,4 +14,10 @@ export type  EspecialistaType ={
   id : string;
   especialidad: string;
   nombreProfesional: string;
+  horarioConsulta: string;
+}
+
+export type HorariosType = {
+  dia : string;
+  horario: string
 }
