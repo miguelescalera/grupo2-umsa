@@ -1,8 +1,6 @@
 import axios from 'axios'
-import {LoginType, RegisterType,EspecialistasType, TurnoType } from '../components/Interfaces/interfaces'
+import {LoginType, RegisterType,EspecialistasType } from '../components/Interfaces/interfaces'
 import { LOGIN, REGISTER,CARTILLA_MEDICA, URL_SERVICE, TURNOS } from '../constants/constants'
-import { resolve } from 'path'
-import { rejects } from 'assert'
 
   const registerService = (data: RegisterType) => {
     return new Promise((resolve, reject) => {
@@ -11,8 +9,7 @@ import { rejects } from 'assert'
           resolve(response)
         })
         .catch(err => {
-          // reject(err)
-          resolve('registro con exito')
+          reject(err)
         })
     })
   }
@@ -24,8 +21,7 @@ import { rejects } from 'assert'
           resolve(response)
         })
         .catch(err => {
-          //reject(err)
-          resolve('login con exito')
+          reject(err)
         })
     })
   }
@@ -57,8 +53,6 @@ import { rejects } from 'assert'
     }
     )
   }
-
-  
 
 export {
   registerService,

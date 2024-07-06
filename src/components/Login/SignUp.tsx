@@ -2,31 +2,40 @@ import * as React from 'react';
 import {
     Avatar, Button,TextField,
     Link, Grid, Box, Typography,
-    Container
+    Container,
+    Select,
+    MenuItem
 } from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Copyright from "./Copyright";
-import { registerService } from '../../services/services';
+import { loginService, registerService } from '../../services/services';
 import { useNavigate } from 'react-router-dom';
+import { useAppContext } from '../../Context/Context';
+import { PAGE_HOME, PAGE_LOGIN } from '../../constants/constants';
 
 export default function SignUp() {
     const navigate = useNavigate()
+    const {login} = useAppContext()
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const formData = new FormData(event.currentTarget);
         const data = {
-            email: formData.get('email'),
+            usuario: formData.get('usuario'),
             password: formData.get('password'),
-            name: formData.get('firstName'),
-            lastName: formData.get('lastName')
+            rol: [formData.get('rol')]
         }
         // se envia al servicio los datos del formulario
         registerService(data)
             .then(response => {
-                console.log('response', response)
-                navigate('/signin')
+                const {rol, ...rest} = data
+                loginService({...rest})
+                    .then((resp: any) => {
+                        login(resp.token)
+                        navigate(PAGE_HOME)
+                    })
+                navigate(PAGE_LOGIN)
             })
             .catch(err => {
                 console.log('err', err)
@@ -59,35 +68,14 @@ export default function SignUp() {
                         </Typography>
                         <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
                             <Grid container spacing={2}>
-                                <Grid item xs={12} sm={6}>
-                                    <TextField
-                                        autoComplete="given-name"
-                                        name="firstName"
-                                        required
-                                        fullWidth
-                                        id="firstName"
-                                        label="Nombre"
-                                        autoFocus
-                                    />
-                                </Grid>
-                                <Grid item xs={12} sm={6}>
-                                    <TextField
-                                        required
-                                        fullWidth
-                                        id="lastName"
-                                        label="Apellido"
-                                        name="lastName"
-                                        autoComplete="family-name"
-                                    />
-                                </Grid>
                                 <Grid item xs={12}>
                                     <TextField
                                         required
                                         fullWidth
                                         id="email"
-                                        label="Correo electrónico"
-                                        name="email"
-                                        autoComplete="email"
+                                        label="Usuario"
+                                        name="usuario"
+                                        autoComplete="Usuario"
                                     />
                                 </Grid>
                                 <Grid item xs={12}>
@@ -100,6 +88,19 @@ export default function SignUp() {
                                         id="password"
                                         autoComplete="new-password"
                                     />
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <Select
+                                        required
+                                        fullWidth
+                                        label="Rol"
+                                        name="rol"
+                                        autoComplete="Rol"
+                                        value={'ADMIN'}
+                                        defaultValue={'ADMIN'}
+                                    >
+                                        <MenuItem value={'ADMIN'}>ADMIN</MenuItem>
+                                    </Select>
                                 </Grid>
                             </Grid>
                             <Button
