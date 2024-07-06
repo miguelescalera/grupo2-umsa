@@ -10,31 +10,30 @@ export type RegisterType = {
   password: FormDataEntryValue | null
 }
 
+export interface  EspecialistasType {
+  id : string;
+  especialidad: string;
+  nombreProfesional: string;
+  horarioConsulta: HorariosType[];
+}
+
 export type ProfesionalType = {
-  id: String
-  emailProfesional: String
-  especialidad: String
-  nombreProfesional: String
-  ubicacionConsulta: String
+  id : string;
+  nombre: string
 }
 
-export type PacienteType = {
-  id: String
-  nombre: String
-  telefono: String
+export type HorariosType = {
+  id : string;
+  dia : string;
+  horario: string;
+  disponibilidad: boolean | null
 }
 
-export type HorarioConsulta = {
-  id: String | null
-  dia: String | null
-  horario: String | null
-}
-
-export type TurnosType = {
-  id: String | null
-  profesional: ProfesionalType
-  paciente: PacienteType 
-  horarioConsulta: HorarioConsulta
-  fechaHora: String | null
-  motivoConsulta: String | null
+export type TurnoType = {
+  
+  profesional : string;
+  paciente: string;
+  fechaHora: string;
+  motivoConsulta: string ;
+  
 }

@@ -11,11 +11,8 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
-import AssignmentIcon from '@mui/icons-material/Assignment';
 import { pages, settings } from './ResponsiveAppBar.constans';
 import { Link } from 'react-router-dom';
-
-
 
 function ResponsiveAppBar() {
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
@@ -29,7 +26,7 @@ function ResponsiveAppBar() {
   };
 
   return (
-    <AppBar position="fixed" color='primary' sx={{opacity:0.9, borderRadius:5, margin:'0 auto', display:'flex', justifyContent:'center'}}>
+    <AppBar position="fixed" color='primary' sx={{opacity:0.9, borderRadius:5, margin:'0 auto', display:'flex', justifyContent:'center', mb:'50px'}}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
@@ -86,9 +83,7 @@ function ResponsiveAppBar() {
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Perfil">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0}}>
-                <Avatar sx={{bgcolor: "transparent"}}>
-                  <AssignmentIcon fontSize="large"/>
-                </Avatar>
+                <Avatar sx={{bgcolor: "transparent"}}/>
               </IconButton>
             </Tooltip>
             <Menu
@@ -108,13 +103,11 @@ function ResponsiveAppBar() {
               onClose={handleCloseUserMenu}
             >
               {settings.map(({name, route}) => (
-                <Link style={{textDecoration:'none'}} to={route}>
-                  <MenuItem key={`${name}`} onClick={handleCloseUserMenu}>
-                    <Typography textAlign="center" fontSize="18px">
-                      {name}
-                    </Typography>
-                  </MenuItem>
-                </Link>
+                <MenuItem key={`${name}`} onClick={handleCloseUserMenu}>
+                  <Link style={{textDecoration:'none'}} to={route}>
+                    <Typography textAlign="center" fontSize="18px">{name}</Typography>
+                  </Link>
+                </MenuItem>
               ))}
             </Menu>
           </Box>

@@ -19,11 +19,11 @@ export const pages = [
 
 export const settings = [
     {
-        name: 'Perfil',
-        route:''
-    }, 
+        name: 'perfil',
+        route:'/perfil'
+    },
     {
         name:'Cerrar Sesion',
-        route:'/signin'
+        route: '/signin'
     }
-];
+]
