@@ -28,3 +28,12 @@ export type HorariosType = {
   horario: string;
   disponibilidad: boolean | null
 }
+
+export type TurnoType = {
+  
+  profesional : string;
+  paciente: string;
+  fechaHora: string;
+  motivoConsulta: string ;
+  
+}

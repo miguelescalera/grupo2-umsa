@@ -1,6 +1,8 @@
 import axios from 'axios'
-import {LoginType, RegisterType,EspecialistasType } from '../components/Interfaces/interfaces'
-import { LOGIN, REGISTER,CARTILLA_MEDICA, URL_SERVICE } from '../constants/constants'
+import {LoginType, RegisterType,EspecialistasType, TurnoType } from '../components/Interfaces/interfaces'
+import { LOGIN, REGISTER,CARTILLA_MEDICA, URL_SERVICE, TURNOS } from '../constants/constants'
+import { resolve } from 'path'
+import { rejects } from 'assert'
 
     // ejemplo para consumo de api
   const registerService = (data: RegisterType) => {
@@ -40,10 +42,28 @@ import { LOGIN, REGISTER,CARTILLA_MEDICA, URL_SERVICE } from '../constants/const
         });
     });
   }
+
+  const newTurnoService = (dataTurno : any) =>{
+    return new Promise((resolve, reject) =>{
+      //cambiamos las {} en dataTurno
+      axios.post(`${URL_SERVICE}${TURNOS}`,dataTurno)
+        .then(response => {
+          resolve(response)
+          console.log("respons data axios",response)
+          console.log(dataTurno)
+        })
+        .catch(err => {
+          reject(err)
+        })
+    }
+    )
+  }
+
   
 
 export {
   registerService,
   loginService,
-  especialistasService
+  especialistasService,
+  newTurnoService
 }
