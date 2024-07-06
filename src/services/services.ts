@@ -1,6 +1,6 @@
 import axios from 'axios'
-import {LoginType, RegisterType } from '../components/Interfaces/interfaces'
-import { LOGIN, REGISTER, URL_SERVICE } from '../constants/constants'
+import { LoginType, RegisterType, TurnosType} from '../components/Interfaces/interfaces'
+import { LOGIN, REGISTER, URL_SERVICE, TURNOS } from '../constants/constants'
 
     // ejemplo para consumo de api
   const registerService = (data: RegisterType) => {
@@ -29,7 +29,22 @@ import { LOGIN, REGISTER, URL_SERVICE } from '../constants/constants'
     })
   }
 
+  const turn = () => {
+    return new Promise<TurnosType[]>((resolve, reject) => {
+      axios.get(`${URL_SERVICE}${TURNOS}`)
+          .then(response => {
+            resolve(response.data)
+          })
+          .catch(err => {
+            reject(err)
+            //resolve('turnos error')
+          })
+    })
+  }
+
+
 export {
   registerService,
-  loginService
+  loginService,
+  turn
 }

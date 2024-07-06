@@ -12,10 +12,10 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import AssignmentIcon from '@mui/icons-material/Assignment';
-import { pages } from './ResponsiveAppBar.constans';
+import { pages, settings } from './ResponsiveAppBar.constans';
 import { Link } from 'react-router-dom';
 
-const settings = ['Perfil', 'Cerrar Sesion'];
+
 
 function ResponsiveAppBar() {
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
@@ -107,10 +107,14 @@ function ResponsiveAppBar() {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center" fontSize="18px">{setting}</Typography>
-                </MenuItem>
+              {settings.map(({name, route}) => (
+                <Link style={{textDecoration:'none'}} to={route}>
+                  <MenuItem key={`${name}`} onClick={handleCloseUserMenu}>
+                    <Typography textAlign="center" fontSize="18px">
+                      {name}
+                    </Typography>
+                  </MenuItem>
+                </Link>
               ))}
             </Menu>
           </Box>

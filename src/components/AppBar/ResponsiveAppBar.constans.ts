@@ -16,3 +16,14 @@ export const pages = [
         route:'/recetas'
     }
 ];
+
+export const settings = [
+    {
+        name: 'Perfil',
+        route:''
+    }, 
+    {
+        name:'Cerrar Sesion',
+        route:'/signin'
+    }
+];
