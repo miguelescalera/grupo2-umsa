@@ -10,14 +10,21 @@ export type RegisterType = {
   password: FormDataEntryValue | null
 }
 
-export type  EspecialistaType ={
+export interface  EspecialistasType {
   id : string;
   especialidad: string;
   nombreProfesional: string;
-  horarioConsulta: string;
+  horarioConsulta: HorariosType[];
+}
+
+export type ProfesionalType = {
+  id : string;
+  nombre: string
 }
 
 export type HorariosType = {
+  id : string;
   dia : string;
-  horario: string
+  horario: string;
+  disponibilidad: boolean | null
 }

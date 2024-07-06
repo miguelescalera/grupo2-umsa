@@ -1,5 +1,5 @@
 import axios from 'axios'
-import {LoginType, RegisterType,EspecialistaType } from '../components/Interfaces/interfaces'
+import {LoginType, RegisterType,EspecialistasType } from '../components/Interfaces/interfaces'
 import { LOGIN, REGISTER,CARTILLA_MEDICA, URL_SERVICE } from '../constants/constants'
 
     // ejemplo para consumo de api
@@ -30,7 +30,7 @@ import { LOGIN, REGISTER,CARTILLA_MEDICA, URL_SERVICE } from '../constants/const
   }
 
   const especialistasService = () => {
-    return new Promise<EspecialistaType[]>((resolve, reject) => {
+    return new Promise<EspecialistasType[]>((resolve, reject) => {
       axios.get(`${URL_SERVICE}${CARTILLA_MEDICA}`)
         .then(response => {
           resolve(response.data);

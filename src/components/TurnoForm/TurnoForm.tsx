@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { TextField, Button, Select, MenuItem, InputLabel, FormControl } from '@mui/material';
 import axios from 'axios';
 import { especialistasService } from '../../services/services';
-import { EspecialistaType, HorariosType } from '../Interfaces/interfaces';
+import { EspecialistasType, HorariosType, ProfesionalType } from '../Interfaces/interfaces';
 import { styled } from '@mui/system';
 
 const FormContainer = styled('div')({
@@ -14,88 +14,55 @@ interface TurnoFormProps {
   onSubmit: (data: any) => void;
 }
 
-/*
-interface Especialista {
-  id : string;
-  especialidad: string;
-  nombreProfesional: string;
-}
-*/
-
 const TurnoForm: React.FC<TurnoFormProps> = ({ onSubmit }) => {
   //const [especialidades, setEspecialidades] = useState<string[]>([]);
   const [motivoConsulta, setMotivoConsulta] = useState('');
-  const [doctoresDisponibles, setDoctoresDisponibles] = useState<EspecialistaType[]>([]);
+  const [doctoresDisponibles, setDoctoresDisponibles] = useState<ProfesionalType[]>([]);
   const [selectedDoctor, setSelectedDoctor] = useState('');
-  const [horariosDisponibles, setHorariosDisponibles] = useState<any[]>([]); // Ajusta el tipo según sea necesario
+  const [horariosDisponibles, setHorariosDisponibles] = useState<HorariosType[]>(); // Ajusta el tipo según sea necesario
   const [selectedHorario, setSelectedHorario] = useState<string>('');
   const [especialidades, setEspecialidades] = useState([]);
   const [selectedEspecialidad, setSelectedEspecialidad] = useState('');
-
+  const [dataProfesionales, setDataProfesionales] = useState<EspecialistasType[]>([]);
 
   useEffect(() => {
-    especialistasService()
-      .then(response => {
-        const especialidades: any = new Set(response.map((especialista: EspecialistaType) => especialista.especialidad));
-        console.log("ss",response);
-        setEspecialidades(Array.from(especialidades));
-        //setHorariosDisponibles([]);
+    especialistasService().then(response => {
+      const especialidades: any = new Set(response.map((especialista: EspecialistasType) => especialista.especialidad));
+      console.log("primer useEffrc", response);
+      setDataProfesionales(response);
+      setEspecialidades(Array.from(especialidades));
+      //aca traigo el objeto con esas propiedades de especialista
+      // const doctoresConEspecialidad = response.map((especialista: EspecialistasType) => ({ id: especialista.id, nombre: especialista.nombreProfesional }));
+      // setDoctoresDisponibles(doctoresConEspecialidad);
+    })
+  }, []);
 
-        if (selectedEspecialidad) {
-          const doctoresConEspecialidad = response.filter((especialista: EspecialistaType) => especialista.especialidad === selectedEspecialidad);
+  useEffect(() => {
+    if (selectedDoctor!=='') {
+      const doctor = dataProfesionales.filter((profesional : EspecialistasType) => (profesional.id===selectedDoctor))
+      console.log("doctor 2effect",doctor);
+      setHorariosDisponibles(doctor[0].horarioConsulta)
+    }
+    //eslint-disabled-next-line react-hooks/exhaustive-deps
+  }, [selectedDoctor]);
 
-          setDoctoresDisponibles(doctoresConEspecialidad);
-
-        }
-      })
-      .catch(error => console.error('Error fetching especialidades', error));
+  useEffect(() => {
+    console.log({dataProfesionales,selectedEspecialidad})
+    if (selectedEspecialidad!=='') {
+      const doctorEspecialidad  = dataProfesionales.filter((profesional : EspecialistasType) => (profesional.especialidad===selectedEspecialidad))
+      console.log("especialidad 2effect",doctorEspecialidad);
+      setDoctoresDisponibles(doctorEspecialidad.map(doctor => ({id : doctor.id, nombre: doctor.nombreProfesional})))
+    }
+    //eslint-disabled-next-line react-hooks/exhaustive-deps
   }, [selectedEspecialidad]);
 
-  useEffect(() => {
-    if (selectedEspecialidad) {
-      especialistasService()
-        .then(response => {
-          const doctoresConEspecialidad = response.filter((especialista: EspecialistaType) => especialista.especialidad === selectedEspecialidad);
 
-          setDoctoresDisponibles(doctoresConEspecialidad);
-        })
-        .catch(error => console.error('Error fetching doctores by specialty', error));
-    }
-  }, [selectedEspecialidad]);
 
-  useEffect(() => {
-    if (selectedDoctor && selectedEspecialidad) {
-      especialistasService()
-        .then(response => {
-          console.log('selectedDoctor:', selectedDoctor);
-          console.log('selectedEspecialidad:', selectedEspecialidad);
-          const selectedDoctorInfo: any = response.find(doctor => doctor.nombreProfesional === selectedDoctor);
-          console.log("doctor");
-          console.log(selectedDoctorInfo);
-          //const horarios = response.flatMap(item => item.horarioConsulta);
-          //console.log("horarios");
-          //console.log(horarios);
-          //si funciona, pero el async parece que espera a que recien
-          //cambien el estado de la especialidad, para cambiar el estado
-          //de los horarios disponibles, y el selectedHorario
-          setHorariosDisponibles([]);
-
-          if (selectedDoctor) {
-            setHorariosDisponibles(selectedDoctorInfo.horarioConsulta); // Actualiza los horarios basándose en el doctor seleccionado
-            console.log("horarioDisponibles");
-            console.log(horariosDisponibles);
-            console.log("selectedHorario");
-            console.log(selectedHorario);
-          }
-        })
-        .catch(error => console.error('Error fetching doctores by specialty', error));
-    }
-  }, [selectedDoctor, selectedEspecialidad]);
 
   const handleEspecialidad = (e: any) => {
     setSelectedEspecialidad(e.target.value)
     setHorariosDisponibles([]);
-    console.log('shorariosDisponibles:',horariosDisponibles);
+    console.log('shorariosDisponibles:', horariosDisponibles);
 
   }
 
@@ -136,7 +103,7 @@ const TurnoForm: React.FC<TurnoFormProps> = ({ onSubmit }) => {
             value={selectedDoctor} // Añade un estado para el doctor seleccionado
             onChange={(e) => setSelectedDoctor(e.target.value)} // Añade un estado setter para el doctor seleccionado
             label="Doctor"
-            defaultValue={''}
+            defaultValue={'probando'}
           >
             {doctoresDisponibles.map((especialista) => (
               <MenuItem
@@ -146,8 +113,8 @@ const TurnoForm: React.FC<TurnoFormProps> = ({ onSubmit }) => {
                   /*(especialista.nombreProfesional === undefined ||
                   especialista.nombreProfesional === null ||
                   Option.length === 0) ? '' :*/
-                  especialista.nombreProfesional}>
-                {especialista.nombreProfesional}
+                  especialista.id}>
+                {especialista.nombre}
               </MenuItem>
             ))}
           </Select>
@@ -160,15 +127,15 @@ const TurnoForm: React.FC<TurnoFormProps> = ({ onSubmit }) => {
             value={selectedHorario}
             onChange={(e) => setSelectedHorario(e.target.value)}
             label="Horario"
-            defaultValue={''}
+            
           >
-            {horariosDisponibles.map((horario) => (
+             {horariosDisponibles?.map((horario) => (
               //verificar porque sí aparecen, pero no me deja seleccionarlo
               // en la solapa esa, el id me da continuado con otros horarios
               <MenuItem key={horario.id} value={`Dia: ${horario.dia}, Horario: ${horario.horario}`}>
                 {`${horario.dia} - ${horario.horario}`}
               </MenuItem>
-            ))}
+            ))} 
           </Select>
         </FormControl>
 
