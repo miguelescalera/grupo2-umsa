@@ -4,6 +4,7 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import { MenuItem, TextField } from '@mui/material';
+import TurnoForm from '../TurnoForm/TurnoForm';
 
 const style = {
   position: 'absolute' as 'absolute',
@@ -11,7 +12,7 @@ const style = {
   left: '50%',
   transform: 'translate(-50%, -50%)',
   width: 500,
-  bgcolor: 'gray',
+  bgcolor: 'white',
   boxShadow: 24,
   p: 4,
   color: "black",
@@ -25,7 +26,7 @@ export default function BasicModal() {
 
   return (
     <div>
-      <Button onClick={handleOpen}>Open modal</Button>
+      <Button onClick={handleOpen}>Añadir</Button>
       <Modal
         open={open}
         onClose={handleClose}
@@ -36,7 +37,8 @@ export default function BasicModal() {
           <Typography id="modal-modal-title" variant="h5" component="h2">
             Añadir Turno Medico
           </Typography>
-          <TextField id="outlined-basic" label="Motivo de Consulta" variant="outlined" sx={{ m: 0.5, width: '200px' }}/>
+          <TurnoForm/>
+          {/* <TextField id="outlined-basic" label="Motivo de Consulta" variant="outlined" sx={{ m: 0.5, width: '200px' }}/>
           <TextField
             sx={{ m: 0.5, width: '200px' }}
             id="outlined-multiline-flexible"
@@ -70,7 +72,7 @@ export default function BasicModal() {
             defaultValue="#"
           >
             <MenuItem>Holas</MenuItem>
-          </TextField>
+          </TextField> */}
         </Box>
       </Modal>
     </div>
