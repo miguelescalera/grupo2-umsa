@@ -7,18 +7,25 @@ import {
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Copyright from "./Copyright";
 import { useNavigate } from 'react-router-dom';
+import { loginService } from '../../services/services';
 
 export default function SignIn() {
   const navigate = useNavigate()
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
-    navigate('/home')
+    const formData = new FormData(event.currentTarget);
+    const data = {
+      email: formData.get('email'),
+      password: formData.get('password'),
+    }
+    loginService(data)
+      .then((response: any) => {
+        navigate('/home')
+        console.log('response', response)
+      }).catch(err => {
+        console.log('err', err)
+      })
   };
 
   return (

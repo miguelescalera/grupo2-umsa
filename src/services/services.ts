@@ -4,7 +4,6 @@ import { LOGIN, REGISTER,CARTILLA_MEDICA, URL_SERVICE, TURNOS } from '../constan
 import { resolve } from 'path'
 import { rejects } from 'assert'
 
-    // ejemplo para consumo de api
   const registerService = (data: RegisterType) => {
     return new Promise((resolve, reject) => {
     axios.post(`${URL_SERVICE}${REGISTER}`, {data})
