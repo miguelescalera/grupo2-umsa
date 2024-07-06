@@ -7,16 +7,30 @@ import {
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Copyright from "./Copyright";
+import { registerService } from '../../services/services';
+import { useNavigate } from 'react-router-dom';
 
 export default function SignUp() {
+    const navigate = useNavigate()
+
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        const data = new FormData(event.currentTarget);
-        console.log({
-            email: data.get('email'),
-            password: data.get('password'),
-            name: data.get('firstName'),
-        });
+        const formData = new FormData(event.currentTarget);
+        const data = {
+            email: formData.get('email'),
+            password: formData.get('password'),
+            name: formData.get('firstName'),
+            lastName: formData.get('lastName')
+        }
+        // se envia al servicio los datos del formulario
+        registerService(data)
+            .then(response => {
+                console.log('response', response)
+                navigate('/signin')
+            })
+            .catch(err => {
+                console.log('err', err)
+            })
     };
 
     return (

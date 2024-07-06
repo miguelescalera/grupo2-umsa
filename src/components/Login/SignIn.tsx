@@ -6,8 +6,11 @@ import {
 } from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Copyright from "./Copyright";
+import { useNavigate } from 'react-router-dom';
 
 export default function SignIn() {
+  const navigate = useNavigate()
+
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -15,6 +18,7 @@ export default function SignIn() {
       email: data.get('email'),
       password: data.get('password'),
     });
+    navigate('/home')
   };
 
   return (
