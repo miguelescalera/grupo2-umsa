@@ -29,6 +29,14 @@ export type HorariosType = {
   disponibilidad: boolean | null
 }
 
+export type PacientesType = {
+  id : string;
+  nombre : string;
+  email : string;
+  telefono: string;
+  
+}
+
 export type TurnoType = {
   
   profesional : string;

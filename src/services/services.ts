@@ -1,6 +1,6 @@
 import axios from 'axios'
-import {LoginType, RegisterType,EspecialistasType, TurnoType } from '../components/Interfaces/interfaces'
-import { LOGIN, REGISTER,CARTILLA_MEDICA, URL_SERVICE, TURNOS } from '../constants/constants'
+import {LoginType, RegisterType,EspecialistasType, TurnoType, PacientesType } from '../components/Interfaces/interfaces'
+import { LOGIN, REGISTER,CARTILLA_MEDICA, URL_SERVICE, TURNOS, PACIENTES } from '../constants/constants'
 import { resolve } from 'path'
 import { rejects } from 'assert'
 
@@ -43,6 +43,18 @@ import { rejects } from 'assert'
     });
   }
 
+  const getPacientes = () => {
+    return new Promise<PacientesType[]>((resolve, reject) =>{
+      axios.get(`${URL_SERVICE}${PACIENTES}`)
+        .then(response  => {
+          resolve(response.data);
+        })
+        .catch(err => {
+          reject(err)
+        })
+    })
+  }
+
   const newTurnoService = (dataTurno : any) =>{
     return new Promise((resolve, reject) =>{
       //cambiamos las {} en dataTurno
@@ -65,5 +77,6 @@ export {
   registerService,
   loginService,
   especialistasService,
-  newTurnoService
+  newTurnoService,
+  getPacientes
 }

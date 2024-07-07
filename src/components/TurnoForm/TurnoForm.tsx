@@ -1,12 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { TextField, Button, Select, MenuItem, InputLabel, FormControl } from '@mui/material';
-import axios from 'axios';
-import { especialistasService, newTurnoService } from '../../services/services';
-import { EspecialistasType, HorariosType, ProfesionalType } from '../Interfaces/interfaces';
+import { especialistasService, getPacientes, newTurnoService } from '../../services/services';
+import { EspecialistasType, PacientesType, ProfesionalType } from '../Interfaces/interfaces';
 import { styled } from '@mui/system';
-import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
-import { DemoContainer, DemoItem } from '@mui/x-date-pickers/internals/demo';
-import  Calendar from '../TurnoForm/Calendar'
+import Calendar from '../TurnoForm/Calendar'
 import dayjs, { Dayjs } from 'dayjs';
 
 
@@ -14,10 +11,6 @@ const FormContainer = styled('div')({
   backgroundColor: '#fff', // Color blanco
   padding: '20px', // Opcional: Agrega un poco de relleno alrededor del contenido
 });
-
-
-
-
 
 
 const TurnoForm: React.FC = () => {
@@ -31,23 +24,29 @@ const TurnoForm: React.FC = () => {
   const [selectedEspecialidad, setSelectedEspecialidad] = useState('');
   const [dataProfesionales, setDataProfesionales] = useState<EspecialistasType[]>([]);
   const [fechaHora, setFechaHora] = useState(null);
+  const [pacientes, setPacientes] = useState<PacientesType[]>([]);
+  const [selectedPaciente, setSelectedPaciente] = useState<any>();
 
-  
+
   useEffect(() => {
     especialistasService().then(response => {
       const especialidades: any = new Set(response.map((especialista: EspecialistasType) => especialista.especialidad));
       console.log("primer useEffrc", response);
-      setDataProfesionales(response);
       setEspecialidades(Array.from(especialidades));
+      setDataProfesionales(response);
+      
+    })
+      getPacientes().then(response => {
+      setPacientes(response);
     })
   }, []);
 
   useEffect(() => {
-    console.log({dataProfesionales,selectedEspecialidad})
-    if (selectedEspecialidad!=='') {
-      const doctorEspecialidad  = dataProfesionales.filter((profesional : EspecialistasType) => (profesional.especialidad===selectedEspecialidad))
-      console.log("especialidad 2effect",doctorEspecialidad);
-      setDoctoresDisponibles(doctorEspecialidad.map(doctor => ({id : doctor.id, nombre: doctor.nombreProfesional})))
+    console.log({ dataProfesionales, selectedEspecialidad })
+    if (selectedEspecialidad !== '') {
+      const doctorEspecialidad = dataProfesionales.filter((profesional: EspecialistasType) => (profesional.especialidad === selectedEspecialidad))
+      console.log("especialidad 2effect", doctorEspecialidad);
+      setDoctoresDisponibles(doctorEspecialidad.map(doctor => ({ id: doctor.id, nombre: doctor.nombreProfesional })))
     }
     //eslint-disabled-next-line react-hooks/exhaustive-deps
   }, [selectedEspecialidad]);
@@ -71,12 +70,10 @@ const TurnoForm: React.FC = () => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     newTurnoService({
-      profesional: {"id" : selectedDoctor},
-      paciente: {"id" : 1},
+      paciente: { "id": selectedPaciente },
+      profesional: { "id": selectedDoctor }, 
       fechaHora: fechaHora,
       motivoConsulta: motivoConsulta
-       // Añade el doctor seleccionado
-      
     });
   };
 
@@ -84,6 +81,25 @@ const TurnoForm: React.FC = () => {
   return (
     <FormContainer>
       <form onSubmit={handleSubmit}>
+
+        <FormControl fullWidth>
+          <InputLabel id="select-paciente-label">Paciente</InputLabel>
+          <Select
+            labelId="select-paciente"
+            value={selectedPaciente}
+            
+            onChange={(e) => setSelectedPaciente(e.target.value)}
+            label="Paciente"
+          >
+            {pacientes.map((paciente) => (
+              <MenuItem key={paciente.id} value={paciente.id}>
+                {paciente.nombre} 
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+
+
 
         <FormControl fullWidth>
           <InputLabel id="select-especialidad-label">Especialidad</InputLabel>
@@ -143,13 +159,13 @@ const TurnoForm: React.FC = () => {
           </Select>
         </FormControl> */}
 
-        <Calendar 
-          onChange={(e:any)=> {
-            console.log("calendar",e.format('YYYY-MM-DDTHH:mm:ss'))
+        <Calendar
+          onChange={(e: any) => {
+            console.log("calendar", e.format('YYYY-MM-DDTHH:mm:ss'))
             setFechaHora(e.format('YYYY-MM-DDTHH:mm:ss'))
-            }
           }
-          value={fechaHora!=='' ? dayjs(fechaHora) : dayjs()} 
+          }
+          value={fechaHora !== '' ? dayjs(fechaHora) : dayjs()}
         />
 
 
