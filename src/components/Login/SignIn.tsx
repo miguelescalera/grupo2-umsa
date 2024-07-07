@@ -8,21 +8,23 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Copyright from "./Copyright";
 import { useNavigate } from 'react-router-dom';
 import { loginService } from '../../services/services';
+import { useAppContext } from '../../Context/Context';
 
 export default function SignIn() {
   const navigate = useNavigate()
+  const { login } = useAppContext()
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
     const data = {
-      email: formData.get('email'),
+      username: formData.get('email'),
       password: formData.get('password'),
     }
     loginService(data)
       .then((response: any) => {
+        login(response.data.token)
         navigate('/home')
-        console.log('response', response)
       }).catch(err => {
         console.log('err', err)
       })

@@ -1,13 +1,12 @@
 export type LoginType = {
-  email: FormDataEntryValue | null
+  username: FormDataEntryValue | null
   password: FormDataEntryValue | null
 }
 
 export type RegisterType = {
-  name: FormDataEntryValue | null
-  lastName: FormDataEntryValue | null
-  email: FormDataEntryValue | null
+  username: FormDataEntryValue | null
   password: FormDataEntryValue | null
+  rol: (FormDataEntryValue | null)[];
 }
 
 export interface  EspecialistasType {

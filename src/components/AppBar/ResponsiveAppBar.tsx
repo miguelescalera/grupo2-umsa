@@ -13,9 +13,11 @@ import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import { pages, settings } from './ResponsiveAppBar.constans';
 import { Link } from 'react-router-dom';
+import { useAppContext } from '../../Context/Context';
 
 function ResponsiveAppBar() {
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
+  const {logout} = useAppContext()
 
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElUser(event.currentTarget);
@@ -102,13 +104,18 @@ function ResponsiveAppBar() {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              {settings.map(({name, route}) => (
-                <MenuItem key={`${name}`} onClick={handleCloseUserMenu}>
-                  <Link style={{textDecoration:'none'}} to={route}>
+              {settings.map(({name, route}) => {
+                const close = name === 'Cerrar Sesion'
+                return (
+                  <MenuItem key={`${name}${route}`} onClick={close ? logout :  handleCloseUserMenu}>
+                    {route ? <Link style={{textDecoration:'none'}} to={route}>
+                      <Typography textAlign="center" fontSize="18px">{name}</Typography>
+                    </Link> : 
                     <Typography textAlign="center" fontSize="18px">{name}</Typography>
-                  </Link>
-                </MenuItem>
-              ))}
+                    }
+                  </MenuItem>
+                )
+              })}
             </Menu>
           </Box>
         </Toolbar>
