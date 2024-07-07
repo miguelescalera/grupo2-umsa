@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { TextField, Button, Select, MenuItem, InputLabel, FormControl } from '@mui/material';
-import { especialistasService, newTurnoService } from '../../services/services';
-import { EspecialistasType, ProfesionalType } from '../Interfaces/interfaces';
+import axios from 'axios';
+import { especialistasService, getPacientes, newTurnoService } from '../../services/services';
+import { EspecialistasType, HorariosType, PacienteType, ProfesionalType } from '../Interfaces/interfaces';
 import { styled } from '@mui/system';
 import  Calendar from '../TurnoForm/Calendar'
 import dayjs from 'dayjs';
@@ -22,6 +23,7 @@ const TurnoForm: React.FC = () => {
   const [selectedEspecialidad, setSelectedEspecialidad] = useState('');
   const [dataProfesionales, setDataProfesionales] = useState<EspecialistasType[]>([]);
   const [fechaHora, setFechaHora] = useState(null);
+  const [dataPacientes, setPacientes] = useState([]);
 
   
   useEffect(() => {
@@ -30,6 +32,10 @@ const TurnoForm: React.FC = () => {
       console.log("primer useEffrc", response);
       setDataProfesionales(response);
       setEspecialidades(Array.from(especialidades));
+    })
+    getPacientes().then(res => {
+      // const pacientes = res.data;
+      // setPacientes(Array.from(pacientes));
     })
   }, []);
 
@@ -91,7 +97,10 @@ const TurnoForm: React.FC = () => {
           <Select
             labelId="select-doctor"
             value={selectedDoctor} // Añade un estado para el doctor seleccionado
-            onChange={(e) => setSelectedDoctor(e.target.value)} // Añade un estado setter para el doctor seleccionado
+            onChange={(e) => {
+              setSelectedDoctor(e.target.value)
+              console.log("Doctor",e.target.value)
+            }} // Añade un estado setter para el doctor seleccionado
             label="Doctor"
             defaultValue={'probando'}
           >

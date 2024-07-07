@@ -38,6 +38,18 @@ import api from './instance.axios'
     });
   }
 
+  const getPacientes = () => {
+    return new Promise<PacienteType[]>((resolve, reject) =>{
+      axios.get(`${URL_SERVICE}${PACIENTES}`)
+        .then((response : any) => {
+          resolve(response.data)
+        })
+        .catch(err => {
+          reject(err)
+        })
+    })
+  }
+
   const newTurnoService = (dataTurno : any) =>{
     return new Promise((resolve, reject) =>{
       //cambiamos las {} en dataTurno
@@ -58,5 +70,7 @@ export {
   registerService,
   loginService,
   especialistasService,
-  newTurnoService
+  newTurnoService,
+  getTurns,
+  getPacientes
 }
