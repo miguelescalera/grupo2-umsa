@@ -1,36 +1,34 @@
-import axios, { Axios, AxiosResponse } from 'axios'
-import {LoginType, RegisterType,EspecialistasType, TurnoType, PacienteType } from '../components/Interfaces/interfaces'
-import { LOGIN, REGISTER,CARTILLA_MEDICA, URL_SERVICE, TURNOS, PACIENTES } from '../constants/constants'
+import {LoginType, RegisterType,EspecialistasType } from '../components/Interfaces/interfaces'
+import { LOGIN, REGISTER,CARTILLA_MEDICA, TURNOS } from '../constants/constants'
+import api from './instance.axios'
 
   const registerService = (data: RegisterType) => {
     return new Promise((resolve, reject) => {
-    axios.post(`${URL_SERVICE}${REGISTER}`, {data})
+    api.post(`${REGISTER}`, data)
         .then(response => {
           resolve(response)
         })
         .catch(err => {
-          // reject(err)
-          resolve('registro con exito')
+          reject(err)
         })
     })
   }
 
   const loginService = (data: LoginType) => {
     return new Promise((resolve, reject) => {
-      axios.post(`${URL_SERVICE}${LOGIN}`, {data})
+      api.post(`${LOGIN}`, data)
         .then(response => {
           resolve(response)
         })
         .catch(err => {
-          //reject(err)
-          resolve('login con exito')
+          reject(err)
         })
     })
   }
 
   const especialistasService = () => {
     return new Promise<EspecialistasType[]>((resolve, reject) => {
-      axios.get(`${URL_SERVICE}${CARTILLA_MEDICA}`)
+      api.get(`${CARTILLA_MEDICA}`)
         .then(response => {
           resolve(response.data);
         })
@@ -55,7 +53,7 @@ import { LOGIN, REGISTER,CARTILLA_MEDICA, URL_SERVICE, TURNOS, PACIENTES } from 
   const newTurnoService = (dataTurno : any) =>{
     return new Promise((resolve, reject) =>{
       //cambiamos las {} en dataTurno
-      axios.post(`${URL_SERVICE}${TURNOS}`,dataTurno)
+      api.post(`${TURNOS}`,dataTurno)
         .then(response => {
           resolve(response)
           console.log("respons data axios",response)
@@ -67,21 +65,6 @@ import { LOGIN, REGISTER,CARTILLA_MEDICA, URL_SERVICE, TURNOS, PACIENTES } from 
     }
     )
   }
-  const getTurns = () => {
-    return new Promise((resolve, reject) =>{
-      axios.get<any>(`${URL_SERVICE}${TURNOS}`)
-        .then((response : any) => {
-          resolve(response.data)
-        })
-        .catch(err => {
-          reject(err)
-        })
-    })
-  }
-
-
-
-  
 
 export {
   registerService,

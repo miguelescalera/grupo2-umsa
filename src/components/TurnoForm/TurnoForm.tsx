@@ -4,21 +4,13 @@ import axios from 'axios';
 import { especialistasService, getPacientes, newTurnoService } from '../../services/services';
 import { EspecialistasType, HorariosType, PacienteType, ProfesionalType } from '../Interfaces/interfaces';
 import { styled } from '@mui/system';
-import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
-import { DemoContainer, DemoItem } from '@mui/x-date-pickers/internals/demo';
 import  Calendar from '../TurnoForm/Calendar'
-import dayjs, { Dayjs } from 'dayjs';
-
+import dayjs from 'dayjs';
 
 const FormContainer = styled('div')({
   backgroundColor: '#fff', // Color blanco
   padding: '20px', // Opcional: Agrega un poco de relleno alrededor del contenido
 });
-
-
-
-
-
 
 const TurnoForm: React.FC = () => {
   //const [especialidades, setEspecialidades] = useState<string[]>([]);
@@ -57,7 +49,6 @@ const TurnoForm: React.FC = () => {
     //eslint-disabled-next-line react-hooks/exhaustive-deps
   }, [selectedEspecialidad]);
 
-
   // useEffect(() => {
   //   if (selectedDoctor!=='') {
   //     const doctor = dataProfesionales.filter((profesional : EspecialistasType) => (profesional.id===selectedDoctor))
@@ -67,11 +58,9 @@ const TurnoForm: React.FC = () => {
   //   //eslint-disabled-next-line react-hooks/exhaustive-deps
   // }, [selectedDoctor]);
 
-
   const handleEspecialidad = (e: any) => {
     setSelectedEspecialidad(e.target.value)
   }
-
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -84,7 +73,6 @@ const TurnoForm: React.FC = () => {
       
     });
   };
-
 
   return (
     <FormContainer>
