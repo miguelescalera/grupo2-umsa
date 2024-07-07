@@ -4,7 +4,7 @@ import { LOGIN, REGISTER,CARTILLA_MEDICA, URL_SERVICE, TURNOS } from '../constan
 
   const registerService = (data: RegisterType) => {
     return new Promise((resolve, reject) => {
-    axios.post(`${URL_SERVICE}${REGISTER}`, {data})
+    axios.post(`${URL_SERVICE}${REGISTER}`, data)
         .then(response => {
           resolve(response)
         })
@@ -16,7 +16,7 @@ import { LOGIN, REGISTER,CARTILLA_MEDICA, URL_SERVICE, TURNOS } from '../constan
 
   const loginService = (data: LoginType) => {
     return new Promise((resolve, reject) => {
-      axios.post(`${URL_SERVICE}${LOGIN}`, {data})
+      axios.post(`${URL_SERVICE}${LOGIN}`, data)
         .then(response => {
           resolve(response)
         })

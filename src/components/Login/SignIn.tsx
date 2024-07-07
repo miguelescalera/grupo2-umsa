@@ -16,7 +16,7 @@ export default function SignIn() {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
     const data = {
-      usuario: formData.get('email'),
+      username: formData.get('email'),
       password: formData.get('password'),
     }
     loginService(data)

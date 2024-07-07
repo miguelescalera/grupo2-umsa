@@ -1,10 +1,10 @@
 export type LoginType = {
-  usuario: FormDataEntryValue | null
+  username: FormDataEntryValue | null
   password: FormDataEntryValue | null
 }
 
 export type RegisterType = {
-  usuario: FormDataEntryValue | null
+  username: FormDataEntryValue | null
   password: FormDataEntryValue | null
   rol: (FormDataEntryValue | null)[];
 }

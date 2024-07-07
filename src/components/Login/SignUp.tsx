@@ -22,7 +22,7 @@ export default function SignUp() {
         event.preventDefault();
         const formData = new FormData(event.currentTarget);
         const data = {
-            usuario: formData.get('usuario'),
+            username: formData.get('usuario'),
             password: formData.get('password'),
             rol: [formData.get('rol')]
         }
@@ -32,7 +32,7 @@ export default function SignUp() {
                 const {rol, ...rest} = data
                 loginService({...rest})
                     .then((resp: any) => {
-                        login(resp.token)
+                        login(resp.data.token)
                         navigate(PAGE_HOME)
                     })
                 navigate(PAGE_LOGIN)

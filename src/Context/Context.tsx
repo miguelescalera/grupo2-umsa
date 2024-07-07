@@ -50,6 +50,7 @@ const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const login = (token: string) => {
     localStorage.setItem('token', token);
     validateToken(token);
+    console.log("Llego el token pa",token);
   };
 
   const logout = () => {
