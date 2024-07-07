@@ -1,13 +1,13 @@
-import React from 'react'
-import TurnoForm from '../components/TurnoForm/TurnoForm'
+import { Box } from '@mui/material'
+import Table from '../components/Table/Table'
 
 function TurnoMedico() {
   return (
-    <>
+    <Box sx={{padding:"5px"}}>
       TURNO MEDICO
-      <TurnoForm/>
-    </>
-    )
+      <Table/>
+    </Box>
+  )
 }
 
 export default TurnoMedico

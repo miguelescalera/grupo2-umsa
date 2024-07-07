@@ -1,5 +1,5 @@
-import {LoginType, RegisterType,EspecialistasType } from '../components/Interfaces/interfaces'
-import { LOGIN, REGISTER,CARTILLA_MEDICA, TURNOS } from '../constants/constants'
+import {LoginType, RegisterType,EspecialistasType, PacientesType } from '../components/Interfaces/interfaces'
+import { LOGIN, REGISTER,CARTILLA_MEDICA, TURNOS, PACIENTES } from '../constants/constants'
 import api from './instance.axios'
 
   const registerService = (data: RegisterType) => {
@@ -39,10 +39,10 @@ import api from './instance.axios'
   }
 
   const getPacientes = () => {
-    return new Promise<PacienteType[]>((resolve, reject) =>{
-      axios.get(`${URL_SERVICE}${PACIENTES}`)
-        .then((response : any) => {
-          resolve(response.data)
+    return new Promise<PacientesType[]>((resolve, reject) =>{
+      api.get(`${PACIENTES}`)
+        .then(response  => {
+          resolve(response.data);
         })
         .catch(err => {
           reject(err)
@@ -66,6 +66,18 @@ import api from './instance.axios'
     )
   }
 
+  const getTurns = () => {
+    return new Promise((resolve, reject) =>{
+      api.get<any>(`${TURNOS}`)
+        .then((response : any) => {
+          resolve(response.data)
+        })
+        .catch(err => {
+          reject(err)
+        })
+    })
+  }
+
 export {
   registerService,
   loginService,
@@ -73,4 +85,5 @@ export {
   newTurnoService,
   getTurns,
   getPacientes
+
 }

@@ -38,41 +38,6 @@ export default function BasicModal() {
             Añadir Turno Medico
           </Typography>
           <TurnoForm/>
-          {/* <TextField id="outlined-basic" label="Motivo de Consulta" variant="outlined" sx={{ m: 0.5, width: '200px' }}/>
-          <TextField
-            sx={{ m: 0.5, width: '200px' }}
-            id="outlined-multiline-flexible"
-            label="Motivo de Consulta"
-            multiline
-            maxRows={4}
-          />
-          <TextField
-            sx={{ m: 0.5, width: '200px' }}
-            id="outlined-select-currency"
-            select
-            label="Profesional Medico"
-            defaultValue="#"
-          >
-            <MenuItem>Holas</MenuItem>
-          </TextField>
-          <TextField
-            sx={{ m: 0.5, width: '200px' }}
-            id="outlined-select-currency"
-            select
-            label="Paciente"
-            defaultValue="#"
-          >
-            <MenuItem>Holas</MenuItem>
-          </TextField>
-          <TextField
-            sx={{ m: 0.5, width: '200px' }}
-            id="outlined-select-currency"
-            select
-            label="Horario"
-            defaultValue="#"
-          >
-            <MenuItem>Holas</MenuItem>
-          </TextField> */}
         </Box>
       </Modal>
     </div>
