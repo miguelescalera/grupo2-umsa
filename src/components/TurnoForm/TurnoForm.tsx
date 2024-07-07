@@ -51,7 +51,6 @@ const TurnoForm: React.FC = () => {
     //eslint-disabled-next-line react-hooks/exhaustive-deps
   }, [selectedEspecialidad]);
 
-
   // useEffect(() => {
   //   if (selectedDoctor!=='') {
   //     const doctor = dataProfesionales.filter((profesional : EspecialistasType) => (profesional.id===selectedDoctor))
@@ -61,11 +60,9 @@ const TurnoForm: React.FC = () => {
   //   //eslint-disabled-next-line react-hooks/exhaustive-deps
   // }, [selectedDoctor]);
 
-
   const handleEspecialidad = (e: any) => {
     setSelectedEspecialidad(e.target.value)
   }
-
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -76,7 +73,6 @@ const TurnoForm: React.FC = () => {
       motivoConsulta: motivoConsulta
     });
   };
-
 
   return (
     <FormContainer>

@@ -11,14 +11,13 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
-import AssignmentIcon from '@mui/icons-material/Assignment';
-import { pages } from './ResponsiveAppBar.constans';
+import { pages, settings } from './ResponsiveAppBar.constans';
 import { Link } from 'react-router-dom';
-
-const settings = ['Perfil', 'Cerrar Sesion'];
+import { useAppContext } from '../../Context/Context';
 
 function ResponsiveAppBar() {
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
+  const {logout} = useAppContext()
 
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElUser(event.currentTarget);
@@ -29,7 +28,7 @@ function ResponsiveAppBar() {
   };
 
   return (
-    <AppBar position="fixed" color='primary' sx={{opacity:0.9, borderRadius:5, margin:'0 auto', display:'flex', justifyContent:'center'}}>
+    <AppBar position="fixed" color='primary' sx={{opacity:0.9, borderRadius:5, margin:'0 auto', display:'flex', justifyContent:'center', mb:'50px'}}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
@@ -86,9 +85,7 @@ function ResponsiveAppBar() {
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Perfil">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0}}>
-                <Avatar sx={{bgcolor: "transparent"}}>
-                  <AssignmentIcon fontSize="large"/>
-                </Avatar>
+                <Avatar sx={{bgcolor: "transparent"}}/>
               </IconButton>
             </Tooltip>
             <Menu
@@ -107,11 +104,18 @@ function ResponsiveAppBar() {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center" fontSize="18px">{setting}</Typography>
-                </MenuItem>
-              ))}
+              {settings.map(({name, route}) => {
+                const close = name === 'Cerrar Sesion'
+                return (
+                  <MenuItem key={`${name}${route}`} onClick={close ? logout :  handleCloseUserMenu}>
+                    {route ? <Link style={{textDecoration:'none'}} to={route}>
+                      <Typography textAlign="center" fontSize="18px">{name}</Typography>
+                    </Link> : 
+                    <Typography textAlign="center" fontSize="18px">{name}</Typography>
+                    }
+                  </MenuItem>
+                )
+              })}
             </Menu>
           </Box>
         </Toolbar>
