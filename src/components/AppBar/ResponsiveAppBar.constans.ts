@@ -4,8 +4,8 @@ export const pages = [
         route:'/cartillaMedica'
     },
     {
-        name:'Pacientes',
-        route:'/pacientes'
+        name:'Turnos',
+        route:'/turnoMedico'
     },
     {
         name:'Profesionales',
@@ -13,7 +13,7 @@ export const pages = [
     },
     {
         name:'Descargar Receta',
-        route:'/recetas'
+        route:'/turnoMedico'
     }
 ];
 
