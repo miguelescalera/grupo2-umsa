@@ -18,7 +18,17 @@ export interface  EspecialistasType {
 
 export type ProfesionalType = {
   id : string;
-  nombre: string
+  nombre: string;
+}
+export type PacienteType = {
+  id : string;
+  nombre: string;
+  email: string;
+  telefono: string;
+}
+export type ProfeType = {
+  id : string;
+  nombreProfesional: string
 }
 
 export type HorariosType = {
@@ -37,10 +47,8 @@ export type PacientesType = {
 }
 
 export type TurnoType = {
-  
-  profesional : string;
-  paciente: string;
-  fechaHora: string;
-  motivoConsulta: string ;
-  
+  profesional : ProfeType | null;
+  paciente: PacienteType | null;
+  fechaHora: string | null;
+  motivoConsulta: string | null;
 }

@@ -71,5 +71,7 @@ export {
   loginService,
   especialistasService,
   newTurnoService,
+  getTurns,
+  getPacientes,
   getPacientes
 }

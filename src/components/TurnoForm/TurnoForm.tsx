@@ -116,7 +116,10 @@ const TurnoForm: React.FC = () => {
           <Select
             labelId="select-doctor"
             value={selectedDoctor} // Añade un estado para el doctor seleccionado
-            onChange={(e) => setSelectedDoctor(e.target.value)} // Añade un estado setter para el doctor seleccionado
+            onChange={(e) => {
+              setSelectedDoctor(e.target.value)
+              console.log("Doctor",e.target.value)
+            }} // Añade un estado setter para el doctor seleccionado
             label="Doctor"
             defaultValue={'probando'}
           >
