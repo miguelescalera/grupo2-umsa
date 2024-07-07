@@ -30,6 +30,7 @@ const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
 
   const validateToken = (token: string) => {
     try {
+      // validar si el decodedToken trae todos los datos codificados
       const decodedToken: any = jwtDecode(token);
       const currentTime = Math.floor(Date.now() / 1000);
 

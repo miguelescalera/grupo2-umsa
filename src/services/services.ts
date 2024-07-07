@@ -1,5 +1,5 @@
 import {LoginType, RegisterType,EspecialistasType } from '../components/Interfaces/interfaces'
-import { LOGIN, REGISTER,CARTILLA_MEDICA, URL_SERVICE, TURNOS } from '../constants/constants'
+import { LOGIN, REGISTER,CARTILLA_MEDICA, TURNOS } from '../constants/constants'
 import api from './instance.axios'
 
   const registerService = (data: RegisterType) => {
@@ -16,7 +16,7 @@ import api from './instance.axios'
 
   const loginService = (data: LoginType) => {
     return new Promise((resolve, reject) => {
-      api.post(`${URL_SERVICE}${LOGIN}`, data)
+      api.post(`${LOGIN}`, data)
         .then(response => {
           resolve(response)
         })
@@ -28,7 +28,7 @@ import api from './instance.axios'
 
   const especialistasService = () => {
     return new Promise<EspecialistasType[]>((resolve, reject) => {
-      api.get(`${URL_SERVICE}${CARTILLA_MEDICA}`)
+      api.get(`${CARTILLA_MEDICA}`)
         .then(response => {
           resolve(response.data);
         })
@@ -41,7 +41,7 @@ import api from './instance.axios'
   const newTurnoService = (dataTurno : any) =>{
     return new Promise((resolve, reject) =>{
       //cambiamos las {} en dataTurno
-      api.post(`${URL_SERVICE}${TURNOS}`,dataTurno)
+      api.post(`${TURNOS}`,dataTurno)
         .then(response => {
           resolve(response)
           console.log("respons data axios",response)
