@@ -14,7 +14,6 @@ const FormContainer = styled('div')({
 
 
 const TurnoForm: React.FC = () => {
-  //const [especialidades, setEspecialidades] = useState<string[]>([]);
   const [motivoConsulta, setMotivoConsulta] = useState('');
   const [doctoresDisponibles, setDoctoresDisponibles] = useState<ProfesionalType[]>([]);
   const [selectedDoctor, setSelectedDoctor] = useState('');
@@ -34,9 +33,9 @@ const TurnoForm: React.FC = () => {
       console.log("primer useEffrc", response);
       setEspecialidades(Array.from(especialidades));
       setDataProfesionales(response);
-      
+
     })
-      getPacientes().then(response => {
+    getPacientes().then(response => {
       setPacientes(response);
     })
   }, []);
@@ -51,6 +50,8 @@ const TurnoForm: React.FC = () => {
     //eslint-disabled-next-line react-hooks/exhaustive-deps
   }, [selectedEspecialidad]);
 
+
+  //HORARIOS DISPONIBLES NO LLEGAMOS A TERMINAR
   // useEffect(() => {
   //   if (selectedDoctor!=='') {
   //     const doctor = dataProfesionales.filter((profesional : EspecialistasType) => (profesional.id===selectedDoctor))
@@ -68,7 +69,7 @@ const TurnoForm: React.FC = () => {
     event.preventDefault();
     newTurnoService({
       paciente: { "id": selectedPaciente },
-      profesional: { "id": selectedDoctor }, 
+      profesional: { "id": selectedDoctor },
       fechaHora: fechaHora,
       motivoConsulta: motivoConsulta
     });
@@ -83,13 +84,13 @@ const TurnoForm: React.FC = () => {
           <Select
             labelId="select-paciente"
             value={selectedPaciente}
-            
+
             onChange={(e) => setSelectedPaciente(e.target.value)}
             label="Paciente"
           >
             {pacientes.map((paciente) => (
               <MenuItem key={paciente.id} value={paciente.id}>
-                {paciente.nombre} 
+                {paciente.nombre}
               </MenuItem>
             ))}
           </Select>
@@ -118,7 +119,7 @@ const TurnoForm: React.FC = () => {
             value={selectedDoctor} // Añade un estado para el doctor seleccionado
             onChange={(e) => {
               setSelectedDoctor(e.target.value)
-              console.log("Doctor",e.target.value)
+              console.log("Doctor", e.target.value)
             }} // Añade un estado setter para el doctor seleccionado
             label="Doctor"
             defaultValue={'probando'}
@@ -126,11 +127,6 @@ const TurnoForm: React.FC = () => {
             {doctoresDisponibles.map((especialista) => (
               <MenuItem
                 key={especialista.id} value={
-                  //este codigo es para evitar el out of range provider, pero no me 
-                  //selecciona el nombre en el menudesplegable
-                  /*(especialista.nombreProfesional === undefined ||
-                  especialista.nombreProfesional === null ||
-                  Option.length === 0) ? '' :*/
                   especialista.id}>
                 {especialista.nombre}
               </MenuItem>
@@ -166,7 +162,6 @@ const TurnoForm: React.FC = () => {
           }
           value={fechaHora !== '' ? dayjs(fechaHora) : dayjs()}
         />
-
 
         <TextField
           label="Motivo de Consulta"

@@ -66,12 +66,24 @@ import api from './instance.axios'
     )
   }
 
+  const getTurns = () => {
+    return new Promise((resolve, reject) =>{
+      api.get<any>(`${TURNOS}`)
+        .then((response : any) => {
+          resolve(response.data)
+        })
+        .catch(err => {
+          reject(err)
+        })
+    })
+  }
+
 export {
   registerService,
   loginService,
   especialistasService,
   newTurnoService,
   getTurns,
-  getPacientes,
   getPacientes
+
 }

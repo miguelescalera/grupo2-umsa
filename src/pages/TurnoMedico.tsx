@@ -1,14 +1,12 @@
-import React from 'react'
-import TurnoForm from '../components/TurnoForm/TurnoForm'
 import { Box } from '@mui/material'
+import Table from '../components/Table/Table'
 
 function TurnoMedico() {
   return (
-    <Box sx={{ bgcolor: '#f0f0f0', p: 2, color: '#333', fontSize: '24px', fontWeight: 'bold' }}>
+    <Box sx={{padding:"5px"}}>
       TURNO MEDICO
-      <TurnoForm />
+      <Table/>
     </Box>
-
   )
 }
 
